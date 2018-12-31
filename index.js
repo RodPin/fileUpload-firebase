@@ -2,13 +2,22 @@ import React, { Component } from "react";
 import firebase from "firebase";
 
 class FileUpload extends Component {
+  
   constructor() {
     super();
     this.state = { uploadValue: 0, picture: null };
 
     this.handleUpload = this.handleUpload.bind(this);
   }
-
+  fileDownload(){
+    firebase
+      .storage()
+      .ref(`fotosUsuarios/${firebase.auth().currentUser.email}`)
+      .getDownloadURL()
+      .then(url => {
+        this.setState({ imagem: url });
+      });
+  }
   handleUpload(event) {
     //recuperar o file que estamos uploadando
     const file = event.target.files[0];
